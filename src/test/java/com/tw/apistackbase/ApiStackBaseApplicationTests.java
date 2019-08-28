@@ -32,22 +32,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
-
-
-
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 
 public class ApiStackBaseApplicationTests {
-@Autowired
-private MockMvc mockMvc;
+	@Autowired
+	private MockMvc mockMvc;
 
 	@Test
 	public void contextLoads() {
-		
+
 	}
 
 	@Test
@@ -64,23 +59,29 @@ private MockMvc mockMvc;
 		result.andDo(MockMvcResultHandlers.print()).andExpect(status().isCreated());
 
 	}
+
 	@Test
 	public void should_return_204_when_delete() throws Exception {
-		  mockMvc.perform(MockMvcRequestBuilders.delete("/employ/2"))
-		        .andExpect(MockMvcResultMatchers.status().isNoContent())
-		        .andDo(MockMvcResultHandlers.print())
-		        .andReturn();
-		 }
+		mockMvc.perform(MockMvcRequestBuilders.delete("/employ/2"))
+				.andExpect(MockMvcResultMatchers.status().isNoContent()).andDo(MockMvcResultHandlers.print())
+				.andReturn();
+	}
+
 	@Test
 	public void should_return_200_when_put() throws Exception {
-		Employee employee = new Employee(1,"xiaohong",15,"女");
-        ObjectMapper objectMapper = new ObjectMapper();
-        String example= objectMapper.writeValueAsString(employee);
-        mockMvc.perform(MockMvcRequestBuilders.put("/employ")
-                .contentType(MediaType.APPLICATION_JSON_UTF8).content(example))
-                .andDo(print())
-                .andExpect(status().isOk());
-		 }
-	
-	
+		Employee employee = new Employee(1, "xiaohong", 15, "女");
+		ObjectMapper objectMapper = new ObjectMapper();
+		String example = objectMapper.writeValueAsString(employee);
+		mockMvc.perform(
+				MockMvcRequestBuilders.put("/employ").contentType(MediaType.APPLICATION_JSON_UTF8).content(example))
+				.andDo(print()).andExpect(status().isOk());
+	}
+
+	@Test
+	public void should_return_200_when_get() throws Exception {
+
+		this.mockMvc.perform(get("/employ")).andDo(print()).andExpect(status().isOk()).andReturn();
+
+	}
+
 }
