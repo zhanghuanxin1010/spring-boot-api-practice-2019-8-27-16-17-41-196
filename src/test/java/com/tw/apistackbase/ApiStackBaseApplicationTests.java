@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import static org.hamcrest.Matchers.containsString;
@@ -47,26 +48,26 @@ private MockMvc mockMvc;
 	}
 
 	@Test
-	public void shoud_return_201_when_pust() throws Exception
-	{
+	public void shoud_return_201_when_pust() throws Exception {
 
-		
-			//Given
-			MockHttpServletRequestBuilder input = MockMvcRequestBuilders.post("/employ").content("{\r\n" + 
-					"    \"id\": \"2\",\r\n" + 
-					"    \"name\": \"li\",\r\n" + 
-					"    \"age\": 19,\r\n" + 
-					"    \"gender\": \"nu\"\r\n" + 
-					"}").contentType(MediaType.APPLICATION_JSON);
-			//When
-			ResultActions result = mockMvc.perform(input);
-			//Then
-			result
-			.andDo(MockMvcResultHandlers.print())
-			.andExpect(status().isCreated());
-		
+		// Given
+		MockHttpServletRequestBuilder input = MockMvcRequestBuilders
+				.post("/employ").content("{\r\n" + "    \"id\": \"2\",\r\n" + "    \"name\": \"li\",\r\n"
+						+ "    \"age\": 19,\r\n" + "    \"gender\": \"nu\"\r\n" + "}")
+				.contentType(MediaType.APPLICATION_JSON);
+		// When
+		ResultActions result = mockMvc.perform(input);
+		// Then
+		result.andDo(MockMvcResultHandlers.print()).andExpect(status().isCreated());
+
 	}
-	
+	@Test
+	public void should_return_204_when_delete() throws Exception {
+		  mockMvc.perform(MockMvcRequestBuilders.delete("/employ/2"))
+		        .andExpect(MockMvcResultMatchers.status().isNoContent())
+		        .andDo(MockMvcResultHandlers.print())
+		        .andReturn();
+		 }
 	
 	
 	
