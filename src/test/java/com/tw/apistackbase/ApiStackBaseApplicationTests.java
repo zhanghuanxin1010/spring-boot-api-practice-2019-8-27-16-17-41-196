@@ -9,6 +9,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -52,7 +55,7 @@ private MockMvc mockMvc;
 
 		// Given
 		MockHttpServletRequestBuilder input = MockMvcRequestBuilders
-				.post("/employ").content("{\r\n" + "    \"id\": \"2\",\r\n" + "    \"name\": \"li\",\r\n"
+				.post("/employ").content("{\r\n" + "    \"id\": \"3\",\r\n" + "    \"name\": \"li\",\r\n"
 						+ "    \"age\": 19,\r\n" + "    \"gender\": \"nu\"\r\n" + "}")
 				.contentType(MediaType.APPLICATION_JSON);
 		// When
@@ -68,7 +71,16 @@ private MockMvc mockMvc;
 		        .andDo(MockMvcResultHandlers.print())
 		        .andReturn();
 		 }
-	
+	@Test
+	public void should_return_200_when_put() throws Exception {
+		Employee employee = new Employee(1,"xiaohong",15,"女");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String example= objectMapper.writeValueAsString(employee);
+        mockMvc.perform(MockMvcRequestBuilders.put("/employ")
+                .contentType(MediaType.APPLICATION_JSON_UTF8).content(example))
+                .andDo(print())
+                .andExpect(status().isOk());
+		 }
 	
 	
 }
